@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import "remixicon/fonts/remixicon.css";
 import * as zebar from "zebar";
 
 createRoot(document.getElementById("root")).render(<App />);
@@ -30,70 +31,70 @@ function App() {
 	function getNetworkIcon(networkOutput) {
 		switch (networkOutput.defaultInterface?.type) {
 			case "ethernet":
-				return <i className="nf nf-md-ethernet_cable" />;
+				return <i class="ri-router-fill"></i>;
 			case "wifi":
 				if (networkOutput.defaultGateway?.signalStrength >= 80) {
-					return <i className="nf nf-md-wifi_strength_4" />;
+					return <i class="ri-signal-wifi-fill"></i>;
 				}
 				if (networkOutput.defaultGateway?.signalStrength >= 65) {
-					return <i className="nf nf-md-wifi_strength_3" />;
+					return <i class="ri-signal-wifi-3-fill"></i>;
 				}
 				if (networkOutput.defaultGateway?.signalStrength >= 40) {
-					return <i className="nf nf-md-wifi_strength_2" />;
+					return <i class="ri-signal-wifi-2-fill"></i>;
 				}
 				if (networkOutput.defaultGateway?.signalStrength >= 25) {
-					return <i className="nf nf-md-wifi_strength_1" />;
+					return <i class="ri-signal-wifi-1-fill"></i>;
 				}
 				return <i className="nf nf-md-wifi_strength_outline" />;
 			default:
-				return <i className="nf nf-md-wifi_strength_off_outline" />;
+				return <i class="ri-signal-wifi-off-fill"></i>;
 		}
 	}
 
 	// Get icon to show for how much of the battery is charged.
 	function getBatteryIcon(batteryOutput) {
 		if (batteryOutput.chargePercent > 90) {
-			return <i className="nf nf-fa-battery_4" />;
+			return <i class="ri-battery-fill"></i>;
 		}
 		if (batteryOutput.chargePercent > 70) {
-			return <i className="nf nf-fa-battery_3" />;
+			return <i class="ri-battery-low-fill"></i>;
 		}
 		if (batteryOutput.chargePercent > 40) {
-			return <i className="nf nf-fa-battery_2" />;
+			return <i class="ri-battery-low-line"></i>;
 		}
 		if (batteryOutput.chargePercent > 20) {
-			return <i className="nf nf-fa-battery_1" />;
+			return <i class="ri-battery-low-line"></i>;
 		}
-		return <i className="nf nf-fa-battery_0" />;
+		return <i class="ri-battery-line"></i>;
 	}
 
 	// Get icon to show for current weather status.
 	function getWeatherIcon(weatherOutput) {
 		switch (weatherOutput.status) {
 			case "clear_day":
-				return <i className="nf nf-weather-day_sunny" />;
+				return <i class="ri-sun-fill"></i>;
 			case "clear_night":
-				return <i className="nf nf-weather-night_clear" />;
+				return <i class="ri-moon-fill"></i>;
 			case "cloudy_day":
-				return <i className="nf nf-weather-day_cloudy" />;
+				return <i class="ri-sun-cloudy-fill"></i>;
 			case "cloudy_night":
-				return <i className="nf nf-weather-night_alt_cloudy" />;
+				return <i class="ri-moon-cloudy-fill"></i>;
 			case "light_rain_day":
-				return <i className="nf nf-weather-day_sprinkle" />;
+				return <i class="ri-rainy-fill"></i>;
 			case "light_rain_night":
-				return <i className="nf nf-weather-night_alt_sprinkle" />;
+				return <i class="ri-rainy-fill"></i>;
 			case "heavy_rain_day":
-				return <i className="nf nf-weather-day_rain" />;
+				return <i class="ri-rainy-fill"></i>;
 			case "heavy_rain_night":
-				return <i className="nf nf-weather-night_alt_rain" />;
+				return <i class="ri-rainy-fill"></i>;
 			case "snow_day":
-				return <i className="nf nf-weather-day_snow" />;
+				return <i class="ri-snowy-fill"></i>;
 			case "snow_night":
-				return <i className="nf nf-weather-night_alt_snow" />;
+				return <i class="ri-snowy-fill"></i>;
 			case "thunder_day":
-				return <i className="nf nf-weather-day_lightning" />;
+				<i class="ri-thunderstorms-fill"></i>;
 			case "thunder_night":
-				return <i className="nf nf-weather-night_alt_lightning" />;
+				<i class="ri-thunderstorms-fill"></i>;
 		}
 	}
 
@@ -101,11 +102,8 @@ function App() {
 		if (mediaOutput) {
 			if (mediaOutput?.currentSession?.isPlaying) {
 				return (
-					<div className="media">
-						<i
-							className="nf nf-fa-pause"
-							onClick={() => mediaOutput.togglePlayPause()}
-						/>
+					<div className="media" onClick={() => mediaOutput.togglePlayPause()}>
+						<i class="ri-pause-circle-line ri-2x"></i>
 						<div className="mediaInfo">
 							{" "}
 							{mediaOutput.currentSession.title}{" "}
@@ -114,11 +112,8 @@ function App() {
 				);
 			} else {
 				return (
-					<div className="media">
-						<i
-							className="nf nf-fa-play"
-							onClick={() => mediaOutput.togglePlayPause()}
-						/>
+					<div className="media" onClick={() => mediaOutput.togglePlayPause()}>
+						<i class="ri-play-circle-line ri-2x"></i>
 						<div className="mediaInfo">
 							{" "}
 							{mediaOutput.currentSession.title}{" "}
@@ -144,7 +139,7 @@ function App() {
 	return (
 		<div className="app">
 			<div className="left">
-				<i className="logo nf nf-fa-windows" />
+				<i class="ri-windows-fill" />
 				{output.glazewm && (
 					<div className="workspaces">
 						{output.glazewm.currentWorkspaces.map((workspace) => (
@@ -184,10 +179,10 @@ function App() {
 
 						<button
 							type="button"
-							className={`tiling-direction nf ${
+							className={`tiling-direction ${
 								output.glazewm.tilingDirection === "horizontal"
-									? "nf-md-swap_horizontal"
-									: "nf-md-swap_vertical"
+									? "ri-arrow-left-right-fill"
+									: "ri-arrow-up-down-fill"
 							}`}
 							onClick={() =>
 								output.glazewm.runCommand("toggle-tiling-direction")
@@ -200,11 +195,11 @@ function App() {
 
 			<div className="center">
 				<div className="date">
-					<i className="nf nf-cod-calendar" />
+					<i class="ri-calendar-todo-fill" />
 					{output.date?.formatted.slice(0, 11)}
 				</div>
 				<div className="time">
-					<i className="nf nf-oct-clock" />
+					<i class="ri-time-fill" />
 					{output.date?.formatted.slice(12)}
 				</div>
 				{output.weather && (
@@ -220,7 +215,7 @@ function App() {
 					{output.network &&
 						output.network.traffic?.transmitted.siValue > 0 && (
 							<div className="outgoing">
-								<i className="outicon nf nf-weather-direction_up" />
+								<i class="ri-arrow-up-fill" />
 								{output.network.traffic?.transmitted.siValue +
 									" " +
 									output.network.traffic?.transmitted.siUnit}
@@ -228,7 +223,7 @@ function App() {
 						)}
 					{output.network && output.network.traffic?.received.siValue > 0 && (
 						<div className="incomming">
-							<i className="inicon nf nf-weather-direction_down" />
+							<i class="ri-arrow-down-fill" />
 							{output.network.traffic?.received.siValue +
 								" " +
 								output.network.traffic?.received.siUnit}
@@ -245,15 +240,14 @@ function App() {
 
 				{output.memory && (
 					<div className="memory">
-						<i className="nf nf-fae-chip" />
+						<i class="ri-ram-fill" />
 						{Math.round(output.memory.usage)}%
 					</div>
 				)}
 
 				{output.cpu && (
 					<div className="cpu">
-						<i className="nf nf-oct-cpu" />
-
+						<i class="ri-cpu-line" />
 						{/* Change the text color if the CPU usage is high. */}
 						<span className={output.cpu.usage > 85 ? "high-usage" : ""}>
 							{Math.round(output.cpu.usage)}%
@@ -265,9 +259,9 @@ function App() {
 					<div className="audio" onClick={() => toggleMute()}>
 						{/* Show icon for audio when volume is 0 */}
 						{output.audio.defaultPlaybackDevice.volume === 0 ? (
-							<i className="nf nf-fa-volume_xmark" />
+							<i class="ri-volume-mute-fill" />
 						) : (
-							<i className="nf nf-fa-volume_up" />
+							<i class="ri-volume-up-fill" />
 						)}
 						{Math.round(output.audio.defaultPlaybackDevice.volume)}%
 					</div>
@@ -276,9 +270,7 @@ function App() {
 				{output.battery && (
 					<div className="battery">
 						{/* Show icon for whether battery is charging. */}
-						{output.battery.isCharging && (
-							<i className="nf nf-md-power_plug charging-icon" />
-						)}
+						{output.battery.isCharging && <i class="ri-battery-charge-fill" />}
 						{getBatteryIcon(output.battery)}
 						{Math.round(output.battery.chargePercent)}%
 					</div>

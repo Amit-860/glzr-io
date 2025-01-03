@@ -48,7 +48,7 @@ gaps:
 
   # Gap between windows and the screen edge.
   outer_gap:
-    top: "32px"
+    top: "35px"
     right: "8px"
     bottom: "8px"
     left: "8px"
@@ -111,8 +111,11 @@ window_behavior:
 
 workspaces:
   - name: "1"
+    keep_alive: true
   - name: "2"
+    keep_alive: true
   - name: "3"
+    keep_alive: true
   - name: "4"
   - name: "5"
   - name: "6"
@@ -125,6 +128,9 @@ window_rules:
     match:
       # Ignores any Zebar windows.
       - window_process: { equals: "zebar" }
+      - window_process: { regex: "KMPlayer*" }
+      - window_process: { regex: "[Tt]askmgr" }
+      - window_process: { regex: "[Ad]guard*" }
 
       # Ignores picture-in-picture windows for browsers.
       - window_title: { regex: "[Pp]icture.in.[Pp]icture" }
@@ -137,7 +143,20 @@ window_rules:
         window_title: { regex: ".*? - Peek" }
       - window_process: { equals: "Lively" }
         window_class: { regex: "HwndWrapper" }
+        
+  - commands: ["move --workspace 1"]
+    match:
+      # Move browsers to workspace 1.
+      - window_process: { regex: "msedge|brave|chrome|opera" }
 
+  - commands: ["move --workspace 2"]
+    match:
+      - window_process: { regex: "[Tt]erminal*|neovide|[Aa]lacritty" }
+      
+  - commands: ["move --workspace 3"]
+    match:
+      - window_process: { regex: "[Ww]indsurf" }
+      
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
   - name: "resize"

@@ -140,7 +140,7 @@ body,
 
 .logo,
 .tiling-direction {
-    margin-right: 12px;
+    margin-right: 10px;
 }
 
 .media {
@@ -149,19 +149,14 @@ body,
     align-items: center;
 }
 
-.weather>i,
-.media>i {
-    font-size: 16px;
-}
-
-.media>i:hover,
+.media:hover,
 .audio {
     cursor: pointer;
 }
 
 .mediaInfo {
     margin-top: 2px;
-    font-size: 9px;
+    font-size: 10px;
 }
 
 .traffic {
@@ -183,8 +178,8 @@ body,
     margin-right: 10px;
 }
 
-.outicon,
-.inicon {
+.outgoing>i,
+.incomming>i,
+.media>i {
     margin-right: 3px;
-    font-size: 11px;
 }
