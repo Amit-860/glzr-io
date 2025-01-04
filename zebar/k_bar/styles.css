@@ -2,8 +2,7 @@
  * Import the Nerdfonts icon font.
  * Ref https://www.nerdfonts.com/cheat-sheet for a cheatsheet of available Nerdfonts icons.
  */
-@import "https://www.nerdfonts.com/assets/css/webfont.css";
-
+/* @import "https://www.nerdfonts.com/assets/css/webfont.css"; */
 @font-face {
     font-family: "JetBrainsMonoNerdFont";
     /* Give the font a unique name */
@@ -179,7 +178,10 @@ body,
 }
 
 .outgoing>i,
-.incomming>i,
-.media>i {
+.incomming>i {
     margin-right: 3px;
+}
+
+.media>i {
+    margin-right: 4px;
 }

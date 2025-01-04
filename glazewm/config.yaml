@@ -16,7 +16,7 @@ general:
 
   # Whether to switch back and forth between the previously focused
   # workspace when focusing the current workspace.
-  toggle_workspace_on_refocus: true
+  toggle_workspace_on_refocus: false
 
   cursor_jump:
     # Whether to automatically move the cursor on the specified trigger.
@@ -147,15 +147,12 @@ window_rules:
   - commands: ["move --workspace 1"]
     match:
       # Move browsers to workspace 1.
-      - window_process: { regex: "msedge|brave|chrome|opera" }
+      - window_process: { regex: "msedge|brave|chrome|[Oo]pera*" }
 
   - commands: ["move --workspace 2"]
     match:
-      - window_process: { regex: "[Tt]erminal*|neovide|[Aa]lacritty" }
+      - window_process: { regex: "neovide|[Aa]lacritty" }
       
-  - commands: ["move --workspace 3"]
-    match:
-      - window_process: { regex: "[Ww]indsurf" }
       
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.

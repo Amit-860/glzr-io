@@ -31,103 +31,142 @@ function App() {
 	function getNetworkIcon(networkOutput) {
 		switch (networkOutput.defaultInterface?.type) {
 			case "ethernet":
-				return <i class="ri-router-fill"></i>;
+				return <i class="ri-router-fill" />;
 			case "wifi":
 				if (networkOutput.defaultGateway?.signalStrength >= 80) {
-					return <i class="ri-signal-wifi-fill"></i>;
+					return <i class="ri-signal-wifi-fill" />;
 				}
 				if (networkOutput.defaultGateway?.signalStrength >= 65) {
-					return <i class="ri-signal-wifi-3-fill"></i>;
+					return <i class="ri-signal-wifi-3-fill" />;
 				}
 				if (networkOutput.defaultGateway?.signalStrength >= 40) {
-					return <i class="ri-signal-wifi-2-fill"></i>;
+					return <i class="ri-signal-wifi-2-fill" />;
 				}
 				if (networkOutput.defaultGateway?.signalStrength >= 25) {
-					return <i class="ri-signal-wifi-1-fill"></i>;
+					return <i class="ri-signal-wifi-1-fill" />;
 				}
 				return <i className="nf nf-md-wifi_strength_outline" />;
 			default:
-				return <i class="ri-signal-wifi-off-fill"></i>;
+				return <i class="ri-signal-wifi-off-fill" />;
 		}
 	}
 
 	// Get icon to show for how much of the battery is charged.
 	function getBatteryIcon(batteryOutput) {
 		if (batteryOutput.chargePercent > 90) {
-			return <i class="ri-battery-fill"></i>;
+			return <i class="ri-battery-fill" />;
 		}
 		if (batteryOutput.chargePercent > 70) {
-			return <i class="ri-battery-low-fill"></i>;
+			return <i class="ri-battery-low-fill" />;
 		}
 		if (batteryOutput.chargePercent > 40) {
-			return <i class="ri-battery-low-line"></i>;
+			return <i class="ri-battery-low-line" />;
 		}
 		if (batteryOutput.chargePercent > 20) {
-			return <i class="ri-battery-low-line"></i>;
+			return <i class="ri-battery-low-line" />;
 		}
-		return <i class="ri-battery-line"></i>;
+		return <i class="ri-battery-line" />;
 	}
 
 	// Get icon to show for current weather status.
 	function getWeatherIcon(weatherOutput) {
 		switch (weatherOutput.status) {
 			case "clear_day":
-				return <i class="ri-sun-fill"></i>;
+				return <i class="ri-sun-fill" />;
 			case "clear_night":
-				return <i class="ri-moon-fill"></i>;
+				return <i class="ri-moon-fill" />;
 			case "cloudy_day":
-				return <i class="ri-sun-cloudy-fill"></i>;
+				return <i class="ri-sun-cloudy-fill" />;
 			case "cloudy_night":
-				return <i class="ri-moon-cloudy-fill"></i>;
+				return <i class="ri-moon-cloudy-fill" />;
 			case "light_rain_day":
-				return <i class="ri-rainy-fill"></i>;
+				return <i class="ri-rainy-fill" />;
 			case "light_rain_night":
-				return <i class="ri-rainy-fill"></i>;
+				return <i class="ri-rainy-fill" />;
 			case "heavy_rain_day":
-				return <i class="ri-rainy-fill"></i>;
+				return <i class="ri-rainy-fill" />;
 			case "heavy_rain_night":
-				return <i class="ri-rainy-fill"></i>;
+				return <i class="ri-rainy-fill" />;
 			case "snow_day":
-				return <i class="ri-snowy-fill"></i>;
+				return <i class="ri-snowy-fill" />;
 			case "snow_night":
-				return <i class="ri-snowy-fill"></i>;
+				return <i class="ri-snowy-fill" />;
 			case "thunder_day":
-				<i class="ri-thunderstorms-fill"></i>;
+				return <i class="ri-thunderstorms-fill" />;
 			case "thunder_night":
-				<i class="ri-thunderstorms-fill"></i>;
+				return <i class="ri-thunderstorms-fill" />;
 		}
 	}
 
-	function getMediaInformation(mediaOutput) {
-		if (mediaOutput) {
-			if (mediaOutput?.currentSession?.isPlaying) {
-				return (
-					<div className="media" onClick={() => mediaOutput.togglePlayPause()}>
-						<i class="ri-pause-circle-line ri-2x"></i>
-						<div className="mediaInfo">
-							{" "}
-							{mediaOutput.currentSession.title}{" "}
-						</div>
-					</div>
-				);
-			} else {
-				return (
-					<div className="media" onClick={() => mediaOutput.togglePlayPause()}>
-						<i class="ri-play-circle-line ri-2x"></i>
-						<div className="mediaInfo">
-							{" "}
-							{mediaOutput.currentSession.title}{" "}
-						</div>
-					</div>
-				);
+	const [ind, setInd] = useState(0);
+	function incInd() {
+		setInd(() => {
+			const sessions = output.media?.allSessions;
+			if (sessions) {
+				if (sessions.length - 1 === ind) {
+					return 0;
+				}
+				return ind + 1;
 			}
-		}
-		return <></>;
+			return 0;
+		});
+	}
+	function decInd() {
+		setInd(() => {
+			const sessions = output.media?.allSessions;
+			if (sessions) {
+				if (ind === 0) {
+					return sessions.length - 1;
+				}
+				return ind - 1;
+			}
+			return 0;
+		});
 	}
 
-	const [prevVol, setPrevVol] = useState(0); // Initial color: white
+	function getMediaInformation(mediaSession) {
+		return (
+			<div
+				className="media"
+				onClick={async () => {
+					output.media.togglePlayPause();
+				}}
+				onKeyUp={() => {}}
+			>
+				{mediaSession?.isPlaying ? (
+					<i class="ri-pause-circle-line ri-2x" />
+				) : (
+					<i class="ri-play-circle-line ri-2x" />
+				)}
+				<div className="mediaInfo"> {mediaSession?.title} </div>
+			</div>
+		);
+
+		// if (mediaSession?.[ind]) {
+		// 	return (
+		// 		<div
+		// 			className="media"
+		// 			onClick={() =>
+		// 				output.media.togglePlayPause({
+		// 					sessionId: mediaSession[ind].sessionId,
+		// 				})
+		// 			}
+		// 			onKeyUp={() => {}}
+		// 		>
+		// 			{mediaSession[ind].isPlaying ? (
+		// 				<i class="ri-pause-circle-line ri-2x" />
+		// 			) : (
+		// 				<i class="ri-play-circle-line ri-2x" />
+		// 			)}
+		// 			<div className="mediaInfo"> {mediaSession[ind].title} </div>
+		// 		</div>
+		// 	);
+		// }
+	}
+
+	const [prevVol, setPrevVol] = useState(0);
 	function toggleMute() {
-		const currentVol = output.audio.defaultPlaybackDevice.volume;
+		const currentVol = output.audio?.defaultPlaybackDevice?.volume;
 		if (currentVol === 0) {
 			output.audio.setVolume(prevVol);
 		} else {
@@ -139,7 +178,7 @@ function App() {
 	return (
 		<div className="app">
 			<div className="left">
-				<i class="ri-windows-fill" />
+				<i class="logo ri-windows-fill" />
 				{output.glazewm && (
 					<div className="workspaces">
 						{output.glazewm.currentWorkspaces.map((workspace) => (
@@ -190,7 +229,14 @@ function App() {
 						/>
 					</>
 				)}
-				{output.media?.currentSession && getMediaInformation(output.media)}
+				{output.media?.currentSession &&
+					getMediaInformation(output.media.currentSession)}
+				{/* <button type="button" onClick={() => incInd()}>
+					+
+				</button>
+				<button type="button" onClick={() => decInd()}>
+					-
+				</button> */}
 			</div>
 
 			<div className="center">
@@ -216,17 +262,13 @@ function App() {
 						output.network.traffic?.transmitted.siValue > 0 && (
 							<div className="outgoing">
 								<i class="ri-arrow-up-fill" />
-								{output.network.traffic?.transmitted.siValue +
-									" " +
-									output.network.traffic?.transmitted.siUnit}
+								{`${output.network.traffic?.transmitted.siValue} ${output.network.traffic?.transmitted.siUnit}`}
 							</div>
 						)}
 					{output.network && output.network.traffic?.received.siValue > 0 && (
 						<div className="incomming">
 							<i class="ri-arrow-down-fill" />
-							{output.network.traffic?.received.siValue +
-								" " +
-								output.network.traffic?.received.siUnit}
+							{`${output.network.traffic?.received.siValue} ${output.network.traffic?.received.siUnit}`}
 						</div>
 					)}
 				</div>
@@ -256,22 +298,29 @@ function App() {
 				)}
 
 				{output.audio && (
-					<div className="audio" onClick={() => toggleMute()}>
+					<div
+						className="audio"
+						onClick={() => toggleMute()}
+						onKeyUp={() => {}}
+					>
 						{/* Show icon for audio when volume is 0 */}
-						{output.audio.defaultPlaybackDevice.volume === 0 ? (
+						{output.audio?.defaultPlaybackDevice?.volume === 0 ? (
 							<i class="ri-volume-mute-fill" />
 						) : (
 							<i class="ri-volume-up-fill" />
 						)}
-						{Math.round(output.audio.defaultPlaybackDevice.volume)}%
+						{Math.round(output.audio?.defaultPlaybackDevice?.volume)}%
 					</div>
 				)}
 
 				{output.battery && (
 					<div className="battery">
 						{/* Show icon for whether battery is charging. */}
-						{output.battery.isCharging && <i class="ri-battery-charge-fill" />}
-						{getBatteryIcon(output.battery)}
+						{output.battery.isCharging ? (
+							<i class="ri-battery-charge-fill" />
+						) : (
+							getBatteryIcon(output.battery)
+						)}
 						{Math.round(output.battery.chargePercent)}%
 					</div>
 				)}
