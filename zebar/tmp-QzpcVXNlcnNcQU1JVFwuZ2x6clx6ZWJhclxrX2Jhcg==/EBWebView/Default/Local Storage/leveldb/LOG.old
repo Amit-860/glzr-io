@@ -1,0 +1,4 @@
+2025/06/10-21:30:07.255 3c74 Reusing MANIFEST C:\Users\AMIT\.glzr\zebar\tmp-QzpcVXNlcnNcQU1JVFwuZ2x6clx6ZWJhclxrX2Jhcg==\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
+2025/06/10-21:30:07.264 3c74 Recovering log #3
+2025/06/10-21:30:07.265 3c74 (ignoring error) C:\Users\AMIT\.glzr\zebar\tmp-QzpcVXNlcnNcQU1JVFwuZ2x6clx6ZWJhclxrX2Jhcg==\EBWebView\Default\Local Storage\leveldb/000003.log: dropping 10741 bytes; Corruption: checksum mismatch
+2025/06/10-21:30:07.267 3c74 Reusing old log C:\Users\AMIT\.glzr\zebar\tmp-QzpcVXNlcnNcQU1JVFwuZ2x6clx6ZWJhclxrX2Jhcg==\EBWebView\Default\Local Storage\leveldb/000003.log 

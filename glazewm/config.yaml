@@ -48,7 +48,7 @@ gaps:
 
   # Gap between windows and the screen edge.
   outer_gap:
-    top: "35px"
+    top: "38px"
     right: "8px"
     bottom: "8px"
     left: "8px"
@@ -112,6 +112,7 @@ window_behavior:
 workspaces:
   - name: "1"
     keep_alive: true
+    # display_name: "⁹ "
   - name: "2"
     keep_alive: true
   - name: "3"
@@ -130,7 +131,8 @@ window_rules:
       - window_process: { equals: "zebar" }
       - window_process: { regex: "KMPlayer*" }
       - window_process: { regex: "[Tt]askmgr" }
-      - window_process: { regex: "[Ad]guard*" }
+      - window_process: { regex: ".*?[Kk]asper.*?" }
+      - window_process: { regex: ".*[Ad]guard*" }
 
       # Ignores picture-in-picture windows for browsers.
       - window_title: { regex: "[Pp]icture.in.[Pp]icture" }
@@ -147,11 +149,11 @@ window_rules:
   - commands: ["move --workspace 1"]
     match:
       # Move browsers to workspace 1.
-      - window_process: { regex: "msedge|brave|chrome|[Oo]pera*" }
+      # - window_process: { regex: "msedge|brave|chrome|[Oo]pera*" }
 
   - commands: ["move --workspace 2"]
     match:
-      - window_process: { regex: "neovide|[Aa]lacritty" }
+      # - window_process: { regex: "neovide|[Aa]lacritty" }
       
       
 binding_modes:
@@ -276,6 +278,8 @@ keybindings:
     bindings: ["F13+d"]
 
   # Change focus to a workspace defined in `workspaces` config.
+  - commands: ["focus --workspace 0"]
+    bindings: ["F13+0"]
   - commands: ["focus --workspace 1"]
     bindings: ["F13+1"]
   - commands: ["focus --workspace 2"]
@@ -307,6 +311,8 @@ keybindings:
     bindings: ["F13+shift+s"]
 
   # Move focused window to a workspace defined in `workspaces` config.
+  - commands: ["move --workspace 0", "focus --workspace 0"]
+    bindings: ["F13+shift+0"]
   - commands: ["move --workspace 1", "focus --workspace 1"]
     bindings: ["F13+shift+1"]
   - commands: ["move --workspace 2", "focus --workspace 2"]

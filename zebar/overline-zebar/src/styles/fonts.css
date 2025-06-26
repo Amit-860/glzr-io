@@ -1,0 +1,55 @@
+@font-face {
+	font-family: "JetBrainsMonoNerdFont";
+	src: url("/public/JetBrainsMonoNerdFontMono-Regular.ttf") format("truetype");
+	font-weight: regular;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "JetBrainsMonoNerdFont";
+	src: url("/public/JetBrainsMonoNerdFontMono-Italic.ttf") format("truetype");
+	font-weight: italic;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "JetBrainsMonoNerdFont";
+	src: url("/public/JetBrainsMonoNerdFontMono-Light.ttf") format("truetype");
+	font-weight: light;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "JetBrainsMonoNerdFont";
+	src: url("/public/JetBrainsMonoNerdFontMono-Medium.ttf") format("truetype");
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "JetBrainsMonoNerdFont";
+	src: url("/public/JetBrainsMonoNerdFontMono-Bold.ttf") format("truetype");
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Geist Mono";
+	src: url("/geistMono/GeistMono-Regular.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Geist Mono";
+	src: url("/geistMono/GeistMono-Medium.ttf") format("truetype");
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Geist Mono";
+	src: url("/geistMono/GeistMono-Bold.ttf") format("truetype");
+	font-weight: bold;
+	font-style: normal;
+}

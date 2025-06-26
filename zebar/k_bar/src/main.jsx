@@ -28,6 +28,26 @@ function App() {
 	}, []);
 
 	// Get icon to show for current network status.
+	function getAudioIcon(audioOutput) {
+		if (audioOutput.defaultPlaybackDevice) {
+			const volume = audioOutput.defaultPlaybackDevice?.volume;
+			if (volume > 90) {
+				return <i class="ri-megaphone-fill" />;
+			}
+			if (volume > 30) {
+				return <i class="ri-volume-up-fill" />;
+			}
+			if (volume > 0) {
+				return <i class="ri-volume-down-fill" />;
+			}
+			if (volume === 0) {
+				return <i class="ri-volume-mute-fill" />;
+			}
+		}
+		return <i class="ri-volume-off-vibrate-fill" />;
+	}
+
+	// Get icon to show for current network status.
 	function getNetworkIcon(networkOutput) {
 		switch (networkOutput.defaultInterface?.type) {
 			case "ethernet":
@@ -124,23 +144,28 @@ function App() {
 		});
 	}
 
-	function getMediaInformation(mediaSession) {
-		return (
-			<div
-				className="media"
-				onClick={async () => {
-					output.media.togglePlayPause();
-				}}
-				onKeyUp={() => {}}
-			>
-				{mediaSession?.isPlaying ? (
-					<i class="ri-pause-circle-line ri-2x" />
-				) : (
-					<i class="ri-play-circle-line ri-2x" />
-				)}
-				<div className="mediaInfo"> {mediaSession?.title} </div>
-			</div>
-		);
+	function getMediaInformation() {
+		if (output.media?.currentSession) {
+			const currentSession = output.media.currentSession;
+			return (
+				<div
+					className="media"
+					onClick={() => {
+						output.media.togglePlayPause();
+					}}
+					onKeyUp={() => {}}
+				>
+					{currentSession?.isPlaying ? (
+						<i class="ri-pause-circle-line ri-2x" />
+					) : (
+						<i class="ri-play-circle-line ri-2x" />
+					)}
+					<div className="mediaInfo"> {currentSession?.title} </div>
+				</div>
+			);
+		} else {
+			return <></>;
+		}
 
 		// if (mediaSession?.[ind]) {
 		// 	return (
@@ -229,8 +254,7 @@ function App() {
 						/>
 					</>
 				)}
-				{output.media?.currentSession &&
-					getMediaInformation(output.media.currentSession)}
+				{output.media && getMediaInformation()}
 				{/* <button type="button" onClick={() => incInd()}>
 					+
 				</button>
@@ -304,11 +328,7 @@ function App() {
 						onKeyUp={() => {}}
 					>
 						{/* Show icon for audio when volume is 0 */}
-						{output.audio?.defaultPlaybackDevice?.volume === 0 ? (
-							<i class="ri-volume-mute-fill" />
-						) : (
-							<i class="ri-volume-up-fill" />
-						)}
+						{getAudioIcon(output.audio)}
 						{Math.round(output.audio?.defaultPlaybackDevice?.volume)}%
 					</div>
 				)}
@@ -317,7 +337,8 @@ function App() {
 					<div className="battery">
 						{/* Show icon for whether battery is charging. */}
 						{output.battery.isCharging ? (
-							<i class="ri-battery-charge-fill" />
+							// <i class="ri-battery-charge-fill" />
+							<i class="ri-plug-fill" />
 						) : (
 							getBatteryIcon(output.battery)
 						)}
