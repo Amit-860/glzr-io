@@ -68,6 +68,6 @@ const PlayPauseIcon = ({ LucideIcon }: { LucideIcon: React.ElementType; }) => (
 );
 
 const PlayPauseIcon_2 = ({ icon }: { icon: string | any; }) => (
-    <i className={cn(icon, "strokeWidth={3} text-lg")} />
+    <i className={cn(icon, "strokeWidth={3} text-[1.125rem]")} />
 
 )
