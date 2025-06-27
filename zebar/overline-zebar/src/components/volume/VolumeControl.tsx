@@ -7,100 +7,129 @@ import Slider from "./components/Slider";
 
 // TODO: Investigate AudioDevice type and why it's not exported. For now, just use any.
 export default function VolumeControl({
-  playbackDevice,
-  statIconClassnames,
-  setVolume,
+	playbackDevice,
+	statIconClassnames,
+	setVolume,
 }: {
-  playbackDevice: any;
-  setVolume: any;
-  statIconClassnames: "h-3 w-3 text-icon";
+	playbackDevice: any;
+	setVolume: any;
+	statIconClassnames: "h-3 w-3 text-icon";
 }) {
-  const [expanded, setExpanded] = useState(false);
-  const ref = useRef<HTMLButtonElement>(null);
+	const [expanded, setExpanded] = useState(false);
+	const ref = useRef<HTMLButtonElement>(null);
 
-  const handleWheel = (e: React.WheelEvent<HTMLButtonElement>) => {
-    if (!playbackDevice) return;
+	const handleWheel = (e: React.WheelEvent<HTMLButtonElement>) => {
+		if (!playbackDevice) return;
 
-    const delta = e.deltaY > 0 ? -3 : 3;
-    setVolume(Math.min(Math.max(playbackDevice.volume + delta, 0), 100));
-  };
+		const delta = e.deltaY > 0 ? -3 : 3;
+		setVolume(Math.min(Math.max(playbackDevice.volume + delta, 0), 100));
+	};
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!playbackDevice) return;
+	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+		if (!playbackDevice) return;
 
-    if (e.shiftKey) {
-      setVolume(playbackDevice.volume === 0 ? 100 : 0);
-      return;
-    }
+		if (e.shiftKey) {
+			setVolume(playbackDevice.volume === 0 ? 100 : 0);
+			return;
+		}
 
-    setExpanded(!expanded);
-  };
+		setExpanded(!expanded);
+	};
 
-  const renderIcon = () => {
-    if (!playbackDevice) return null;
-    if (playbackDevice?.volume === 0) {
-      return (
-        <Volume className={statIconClassnames} size={16} strokeWidth={3} />
-      );
-    } else if (playbackDevice?.volume > 0 && playbackDevice?.volume < 60) {
-      return (
-        <Volume1 className={statIconClassnames} size={16} strokeWidth={3} />
-      );
-    } else {
-      return (
-        <Volume2 className={statIconClassnames} size={16} strokeWidth={3} />
-      );
-    }
-  };
+	const handleMouseEnter = () => {
+		setExpanded(true);
+	};
 
-  // Close the slider when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setExpanded(false);
-      }
-    };
+	const handleMouseLeave = () => {
+		setExpanded(false);
+	};
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+	const renderIcon = () => {
+		if (!playbackDevice) return null;
+		if (playbackDevice?.volume === 0) {
+			return (
+				<Volume
+					className={statIconClassnames}
+					size={16}
+					strokeWidth={3}
+				/>
+			);
+		} else if (playbackDevice?.volume > 0 && playbackDevice?.volume < 60) {
+			return (
+				<Volume1
+					className={statIconClassnames}
+					size={16}
+					strokeWidth={3}
+				/>
+			);
+		} else {
+			return (
+				<Volume2
+					className={statIconClassnames}
+					size={16}
+					strokeWidth={3}
+				/>
+			);
+		}
+	};
 
-  return (
-    <Chip
-      ref={ref}
-      as="button"
-      onClick={handleClick}
-      onWheel={handleWheel}
-      className="outline-none px-2 pr-2.5"
-    >
-      <div className="flex items-center">
-        <div>{renderIcon()}</div>
+	// Close the slider when clicking outside
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (ref.current && !ref.current.contains(event.target as Node)) {
+				setExpanded(false);
+			}
+		};
 
-        <div
-          className={cn(
-            "transition duration-200 ease-in-out mx-1 w-full",
-            expanded && "mx-1.5"
-          )}
-        >
-          <AnimatePresence initial={false}>
-            {expanded && (
-              <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: "auto", opacity: 1 }}
-                exit={{ width: 0, opacity: 0 }}
-                className="overflow-hidden"
-                transition={{ type: "spring", duration: 0.4, bounce: 0 }}
-              >
-                <Slider value={playbackDevice.volume} setValue={setVolume} />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
 
-        <p>{playbackDevice?.volume}%</p>
-      </div>
-    </Chip>
-  );
+	return (
+		<Chip
+			ref={ref}
+			as="button"
+			onClick={handleClick}
+			onWheel={handleWheel}
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={handleMouseLeave}
+			className="outline-none px-2 pr-2.5 cursor-pointer"
+		>
+			<div className="flex items-center">
+				<div>{renderIcon()}</div>
+
+				<div
+					className={cn(
+						"transition duration-200 ease-in-out mx-1 w-full",
+						expanded && "mx-1.5"
+					)}
+				>
+					<AnimatePresence initial={false}>
+						{expanded && (
+							<motion.div
+								initial={{ width: 0, opacity: 0 }}
+								animate={{ width: "auto", opacity: 1 }}
+								exit={{ width: 0, opacity: 0 }}
+								className="overflow-hidden"
+								transition={{
+									type: "spring",
+									duration: 0.4,
+									bounce: 0,
+								}}
+							>
+								<Slider
+									value={playbackDevice.volume}
+									setValue={setVolume}
+								/>
+							</motion.div>
+						)}
+					</AnimatePresence>
+				</div>
+
+				<p>{playbackDevice?.volume}%</p>
+			</div>
+		</Chip>
+	);
 }

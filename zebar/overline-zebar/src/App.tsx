@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as zebar from "zebar";
 import { Center } from "./components/Center";
 import { Chip } from "./components/common/Chip";
@@ -7,12 +7,11 @@ import Stat from "./components/stat";
 import { weatherThresholds } from "./components/stat/defaults/thresholds";
 import { TilingControl } from "./components/TilingControl";
 import VolumeControl from "./components/volume";
-import { WindowTitle } from "./components/windowTitle/WindowTitle";
 import { WorkspaceControls } from "./components/WorkspaceControls";
+import { WindowTitle } from "./components/windowTitle/WindowTitle";
 import "./styles/fonts.css";
 import { useAutoTiling } from "./utils/useAutoTiling";
 import { getWeatherIcon } from "./utils/weatherIcons";
-import Systray from "./components/systray";
 import "remixicon/fonts/remixicon.css";
 
 const providers = zebar.createProviderGroup({
@@ -30,6 +29,7 @@ const providers = zebar.createProviderGroup({
 
 function App() {
 	const [output, setOutput] = useState(providers.outputMap);
+	const [isStatsChipHovered, setIsStatsChipHovered] = useState(false);
 	useEffect(() => {
 		providers.onOutput(() => setOutput(providers.outputMap));
 	}, []);
@@ -140,9 +140,6 @@ function App() {
 					<Chip
 						className="flex items-center gap-3 h-full text-icon"
 						as="button"
-						onClick={() => {
-							output.glazewm?.runCommand("shell-exec taskmgr");
-						}}
 					>
 						{output.network && (
 							<div className="network">
@@ -160,6 +157,8 @@ function App() {
 					<Chip
 						className="flex items-center gap-3 h-full"
 						as="button"
+						onMouseEnter={() => setIsStatsChipHovered(true)}
+						onMouseLeave={() => setIsStatsChipHovered(false)}
 						onClick={() => {
 							output.glazewm?.runCommand("shell-exec taskmgr");
 						}}
@@ -170,7 +169,7 @@ function App() {
 									<p className="font-medium text-icon">CPU</p>
 								}
 								stat={`${Math.round(output.cpu.usage)}%`}
-								type="ring"
+								type={isStatsChipHovered ? "inline" : "ring"}
 							/>
 						)}
 
@@ -180,7 +179,7 @@ function App() {
 									<p className="font-medium text-icon">RAM</p>
 								}
 								stat={`${Math.round(output.memory.usage)}%`}
-								type="ring"
+								type={isStatsChipHovered ? "inline" : "ring"}
 							/>
 						)}
 
@@ -200,10 +199,18 @@ function App() {
 								stat={`${Math.round(
 									output.battery.chargePercent
 								)}%`}
-								type="ring"
+								type={isStatsChipHovered ? "inline" : "ring"}
 							/>
 						)}
 					</Chip>
+				</div>
+
+				<div className="flex items-center h-full">
+					<VolumeControl
+						playbackDevice={output.audio?.defaultPlaybackDevice}
+						setVolume={output.audio?.setVolume}
+						statIconClassnames={statIconClassnames}
+					/>
 				</div>
 
 				<div className="flex items-center h-full">
@@ -226,14 +233,6 @@ function App() {
 							/>
 						)}
 					</Chip>
-				</div>
-
-				<div className="flex items-center h-full">
-					<VolumeControl
-						playbackDevice={output.audio?.defaultPlaybackDevice}
-						setVolume={output.audio?.setVolume}
-						statIconClassnames={statIconClassnames}
-					/>
 				</div>
 
 				{/* <div className="h-full flex items-center px-0.5 pr-1">
