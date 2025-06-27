@@ -155,7 +155,7 @@ function App() {
 				<div className="flex items-center h-full">
 					{/* TODO: Extract to component */}
 					<Chip
-						className="flex items-center gap-3 h-full"
+						className="flex items-center gap-3 h-full w-[11rem] justify-between"
 						as="button"
 						onMouseEnter={() => setIsStatsChipHovered(true)}
 						onMouseLeave={() => setIsStatsChipHovered(false)}
