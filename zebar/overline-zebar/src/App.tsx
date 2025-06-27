@@ -13,6 +13,8 @@ import "./styles/fonts.css";
 import { useAutoTiling } from "./utils/useAutoTiling";
 import { getWeatherIcon } from "./utils/weatherIcons";
 import "remixicon/fonts/remixicon.css";
+import { AnimatePresence, motion } from "framer-motion";
+import { StatsChip } from "./components/statsChip/StatsChip";
 
 const providers = zebar.createProviderGroup({
 	media: { type: "media" },
@@ -29,7 +31,6 @@ const providers = zebar.createProviderGroup({
 
 function App() {
 	const [output, setOutput] = useState(providers.outputMap);
-	const [isStatsChipHovered, setIsStatsChipHovered] = useState(false);
 	useEffect(() => {
 		providers.onOutput(() => setOutput(providers.outputMap));
 	}, []);
@@ -153,56 +154,7 @@ function App() {
 				</div>
 
 				<div className="flex items-center h-full">
-					{/* TODO: Extract to component */}
-					<Chip
-						className="flex items-center gap-3 h-full w-[11rem] justify-between"
-						as="button"
-						onMouseEnter={() => setIsStatsChipHovered(true)}
-						onMouseLeave={() => setIsStatsChipHovered(false)}
-						onClick={() => {
-							output.glazewm?.runCommand("shell-exec taskmgr");
-						}}
-					>
-						{output.cpu && (
-							<Stat
-								Icon={
-									<p className="font-medium text-icon">CPU</p>
-								}
-								stat={`${Math.round(output.cpu.usage)}%`}
-								type={isStatsChipHovered ? "inline" : "ring"}
-							/>
-						)}
-
-						{output.memory && (
-							<Stat
-								Icon={
-									<p className="font-medium text-icon">RAM</p>
-								}
-								stat={`${Math.round(output.memory.usage)}%`}
-								type={isStatsChipHovered ? "inline" : "ring"}
-							/>
-						)}
-
-						{output.battery && (
-							<Stat
-								Icon={
-									output.battery.isCharging ? (
-										<p className="font-medium text-teal-700">
-											BTT
-										</p>
-									) : (
-										<p className="font-medium text-icon">
-											BTT
-										</p>
-									)
-								}
-								stat={`${Math.round(
-									output.battery.chargePercent
-								)}%`}
-								type={isStatsChipHovered ? "inline" : "ring"}
-							/>
-						)}
-					</Chip>
+					<StatsChip output={output} />
 				</div>
 
 				<div className="flex items-center h-full">
