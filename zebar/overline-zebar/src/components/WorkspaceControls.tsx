@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { Workspace } from "glazewm";
+import type { Workspace } from "glazewm";
 import useMeasure from "react-use-measure";
-import { GlazeWmOutput } from "zebar";
+import type { GlazeWmOutput } from "zebar";
 import { cn } from "../utils/cn";
 import { buttonStyles } from "./common/Button";
 import { Chip } from "./common/Chip";
@@ -10,10 +10,11 @@ type WorkspaceControlsProps = {
 	glazewm: GlazeWmOutput | null;
 };
 export function WorkspaceControls({ glazewm }: WorkspaceControlsProps) {
+	const [ref, { width }] = useMeasure();
+
 	if (!glazewm) return;
 	const workspaces = glazewm.currentWorkspaces;
 
-	const [ref, { width }] = useMeasure();
 	const springConfig = {
 		type: "spring",
 		stiffness: 120,
@@ -47,7 +48,7 @@ export function WorkspaceControls({ glazewm }: WorkspaceControlsProps) {
 			<Chip
 				className={cn(
 					width ? "absolute" : "relative",
-					"flex items-center justify-center gap-1.5 select-none overflow-hidden px-[2px] py-[1px] h-full",
+					"flex items-center justify-center gap-1.5 select-none overflow-hidden px-[2px] py-[1px] h-full"
 				)}
 				as="div"
 				ref={ref}
@@ -57,15 +58,18 @@ export function WorkspaceControls({ glazewm }: WorkspaceControlsProps) {
 					const isFocused = workspace.hasFocus;
 					return (
 						<button
+							type="button"
 							key={workspace.name}
 							onClick={() =>
-								glazewm.runCommand(`focus --workspace ${workspace.name}`)
+								glazewm.runCommand(
+									`focus --workspace ${workspace.name}`
+								)
 							}
 							className={cn(
-								"relative rounded-xl px-2 transition duration-500 ease-in-out text-text-muted h-full",
+								"relative rounded-xl px-2 transition-all duration-[1s] ease-out text-text-muted h-full",
 								isFocused ? "" : "hover:text-text",
-								isFocused &&
-									"text-text duration-700 transition-all ease-in-out font-medium",
+								isFocused && "px-4 text-text font-medium"
+								// "px-4 text-text duration-900 transition-all ease-in-out font-medium",
 							)}
 							style={{
 								WebkitTapHighlightColor: "transparent",
@@ -81,7 +85,7 @@ export function WorkspaceControls({ glazewm }: WorkspaceControlsProps) {
 									className={cn(
 										buttonStyles,
 										"bg-primary border-primary-border drop-shadow-sm rounded-[0.5rem] absolute inset-0 -z-10",
-										isFocused && "hover:bg-primary",
+										isFocused && "hover:bg-primary"
 									)}
 									transition={{
 										type: "spring",
