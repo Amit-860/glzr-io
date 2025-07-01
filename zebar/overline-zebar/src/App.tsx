@@ -74,7 +74,7 @@ function App() {
 			return (
 				output.date?.formatted.slice(0, 10) +
 				" | " +
-				output.date?.formatted.slice(11)
+				output.date?.formatted.slice(10)
 			);
 		}
 		return (
