@@ -112,14 +112,26 @@ window_behavior:
 workspaces:
   - name: "1"
     keep_alive: true
+    bind_to_monitor: 0
     # display_name: "⁹ "
+    
   - name: "2"
     keep_alive: true
+    bind_to_monitor: 0
+    
   - name: "3"
     keep_alive: true
+    bind_to_monitor: 0
+    
   - name: "4"
+    keep_alive: true
+    
   - name: "5"
+    keep_alive: true
+    
   - name: "6"
+    keep_alive: true
+    
   - name: "7"
   - name: "8"
   - name: "9"

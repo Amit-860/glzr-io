@@ -48,7 +48,7 @@ export function WorkspaceControls({ glazewm }: WorkspaceControlsProps) {
 			<Chip
 				className={cn(
 					width ? "absolute" : "relative",
-					"flex items-center justify-center gap-1.5 select-none overflow-hidden px-[2px] py-[1px] h-full"
+					"flex items-center justify-center gap-1.5 select-none overflow-hidden px-[2px] py-[1px] h-full",
 				)}
 				as="div"
 				ref={ref}
@@ -61,14 +61,12 @@ export function WorkspaceControls({ glazewm }: WorkspaceControlsProps) {
 							type="button"
 							key={workspace.name}
 							onClick={() =>
-								glazewm.runCommand(
-									`focus --workspace ${workspace.name}`
-								)
+								glazewm.runCommand(`focus --workspace ${workspace.name}`)
 							}
 							className={cn(
-								"relative rounded-xl px-2 transition-all duration-[1s] ease-out text-text-muted h-full",
+								"relative rounded-xl px-2 transition-all duration-[0.7s] ease-out text-text-muted h-full",
 								isFocused ? "" : "hover:text-text",
-								isFocused && "px-4 text-text font-medium"
+								isFocused && "px-4 text-text font-medium",
 								// "px-4 text-text duration-900 transition-all ease-in-out font-medium",
 							)}
 							style={{
@@ -85,7 +83,7 @@ export function WorkspaceControls({ glazewm }: WorkspaceControlsProps) {
 									className={cn(
 										buttonStyles,
 										"bg-primary border-primary-border drop-shadow-sm rounded-[0.5rem] absolute inset-0 -z-10",
-										isFocused && "hover:bg-primary"
+										isFocused && "hover:bg-primary",
 									)}
 									transition={{
 										type: "spring",

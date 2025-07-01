@@ -66,6 +66,24 @@ function App() {
 		return num;
 	}
 
+	function getFormattedDate(output: any): string {
+		const currentDate = new Date();
+		const currentDay = currentDate.getDate();
+
+		if (currentDay < 10) {
+			return (
+				output.date?.formatted.slice(0, 10) +
+				" | " +
+				output.date?.formatted.slice(11)
+			);
+		}
+		return (
+			output.date?.formatted.slice(0, 11) +
+			" | " +
+			output.date?.formatted.slice(11)
+		);
+	}
+
 	function NetworkTrafficChip({ output }: any): any {
 		const { transmitted, received } = output?.network?.traffic || {};
 
@@ -77,25 +95,18 @@ function App() {
 
 		return (
 			<div className="flex items-center h-full">
-				<Chip
-					as="button"
-					className="flex items-center gap-1 h-full text-icon"
-				>
+				<Chip as="button" className="flex items-center gap-1 h-full text-icon">
 					{transmitted && (
 						<div className="outgoing">
 							<i className="ri-arrow-up-fill" />
-							{`${formatNumber(transmitted.siValue)} ${
-								transmitted.siUnit
-							}`}
+							{`${formatNumber(transmitted.siValue)} ${transmitted.siUnit}`}
 						</div>
 					)}
 
 					{received && (
 						<div className="incomming">
 							<i className="ri-arrow-down-fill" />
-							{`${formatNumber(received.siValue)} ${
-								received.siUnit
-							}`}
+							{`${formatNumber(received.siValue)} ${received.siUnit}`}
 						</div>
 					)}
 				</Chip>
@@ -173,13 +184,8 @@ function App() {
 					>
 						{output.weather && (
 							<Stat
-								Icon={getWeatherIcon(
-									output.weather,
-									statIconClassnames
-								)}
-								stat={`${Math.round(
-									output.weather.celsiusTemp
-								)}°C`}
+								Icon={getWeatherIcon(output.weather, statIconClassnames)}
+								stat={`${Math.round(output.weather.celsiusTemp)}°C`}
 								threshold={weatherThresholds}
 								type="inline"
 							/>
@@ -205,13 +211,8 @@ function App() {
 							.replace(/,/g, "")} */}
 
 					<div className="flex items-center h-full">
-						<Chip
-							className="flex items-center gap-3 h-full"
-							as="button"
-						>
-							{output.date?.formatted.slice(0, 11)}
-							{" | "}
-							{output.date?.formatted.slice(11)}
+						<Chip className="flex items-center gap-3 h-full" as="button">
+							{getFormattedDate(output)}
 						</Chip>
 					</div>
 				</div>
