@@ -66,7 +66,7 @@ export function WorkspaceControls({ glazewm }: WorkspaceControlsProps) {
 							className={cn(
 								"relative rounded-xl px-2 transition-all duration-[0.7s] ease-out text-text-muted h-full",
 								isFocused ? "" : "hover:text-text",
-								isFocused && "px-4 text-text font-medium",
+								isFocused && "px-5 text-text font-medium",
 								// "px-4 text-text duration-900 transition-all ease-in-out font-medium",
 							)}
 							style={{
